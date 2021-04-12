@@ -87,7 +87,7 @@ function init() {
         height: 500,
         width: 500
       };
-    var trace1 = {
+    var data2 = [{
       x: stringIds,
       y: slicedData,
       mode: 'markers',
@@ -95,14 +95,14 @@ function init() {
         size: slicedData,
         color: stringIds
       }
-    };
+    }];
     var layout2 = {
       // title: 'Marker Size',
       showlegend: false,
       height: 500,
       width: 800
     };
-    var data2 = [trace1];
+    // var data2 = [trace1];
     console.log(slicedData, secondSlice, thirdSlice);
 
     var data3 = [{
@@ -114,34 +114,16 @@ function init() {
     }];
     var newLayout = { width: 600, height: 500, margin: { t: 0, b: 0}};
 
+    var CHART = d3.selectAll("#bar").node();
+    var CHART2 = d3.selectAll("#bubble").node();
+    var CHART3 = d3.selectAll("#gauge").node();
 
-    Plotly.newPlot("bar", data, layout);
-    Plotly.newPlot("bubble", data2, layout2);
-    Plotly.newPlot("gauge", data3, newLayout);
+
+    Plotly.newPlot(CHART, data, layout);
+    Plotly.newPlot(CHART2, data2, layout2);
+    Plotly.newPlot(CHART3, data3, newLayout);
   })
 };
-
-// Haven't finished this part below yet/ Ignore
-// function buildTable(id, ethnicity, gender, age, location, bbtype, wfreq) {
-//   // d3.select("#sample-metadata")
-//   //   .data(source)
-//   //   .enter()
-//   //   .append("li")
-//   //   .text(id, ethnicity, gender, age, location, bbtype, wfreq);
-//   d3.selectAll('#sample-metadata')
-// 	.data(source)
-// 	.enter()
-//   .append('ul')
-// 	.append('li').text(id)
-//   .append('li').text(ethnicity)
-//   .append('li').text(gender)
-//   .append('li').text(age)
-//   .append('li').text(location)
-//   .append('li').text(bbtype)
-//   .append('li').text(wfreq)
-//
-// };
-
 
 d3.selectAll("#selDataset").on("change", optionChanged);
 
@@ -149,38 +131,37 @@ function optionChanged() {
   d3.json(source).then((data) => {
     var sampleValues = data.samples.map(object => object.sample_values);
     var otuIds = data.samples.map(object => object.otu_ids);
-    var otuLabels = data.samples.map(object => object.otu_labels); }); }
-    // var metaIds = [];
-    // metaIds = data.metadata.map(d => d.id);
-    // console.log(metaIds);
+    var otuLabels = data.samples.map(object => object.otu_labels);
+    var dropdown = d3.select("#selDataset");
+    var dataset = dropdown.node().value;
+
+    var CHART = d3.selectAll("#plot").node();
+
+    var x = [];
+    var y = [];
+    function updating(x) {
+      if (dataset === data.samples.id[x]) {
+        slicedData = sampleValues[x].slice(0, 10).reverse();
+        secondSlice = otuIds[x].slice(0, 10).reverse();
+        thirdSlice = otuLabels[x].slice(0, 10).reverse();
+
+        var stringIds = [];
+
+        secondSlice.forEach(a => {
+          stringIds.push(`OTU ID: ${a}`);
+        x = slicedData;
+        y = secondSlice;
+
+      });
+    updating();
+
+    Plotly.restyle(CHART, "x", [x]);
+    Plotly.restyle(CHART, "y", [y]);
+  }}
 
 
+})};
 
 
-          // var options = dropdownMenu.selectAll("#selDataset")
-    //
-    // var newSV = sampleValues.sort(function compareFunction(first, second) {
-    //   return second - first;
-
-    // });
-
-    // console.log(otuIds);
-//     var trace1 = {
-//       type: "bar",
-//       x: newSV,
-//       y: otuIds,
-//       orientation: 'h'
-//     }
-//
-//     var data = [trace1];
-//
-//     var layout = {
-//       title: 'Things',
-//     };
-//
-//     Plotly.newPlot("bar", data, layout);
-//
-//   });
-// }
 
 init();
