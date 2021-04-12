@@ -12,11 +12,36 @@ function init() {
     var sampleValues = d.samples.map(a => a.sample_values);
     var otuIds = d.samples.map(a => a.otu_ids)
     var otuLabels = d.samples.map(a => a.otu_labels);
-    var demoInfo = `${d.metadata[0]}`;
-    console.log(demoInfo);
-    d3.select("sample-metadata")
-      .append(demoInfo)
-      .enter();
+    var demoInfo = d.metadata[0];
+    var wFreq = demoInfo.wfreq;
+    var id = demoInfo.id;
+    var dropdownIds = d.metadata.map(a => a.id)
+    console.log(demoInfo)
+    var ethnicity = demoInfo.ethnicity;
+    var gender = demoInfo.gender;
+    var age = demoInfo.age;
+    var location = demoInfo.location;
+    var bbtype = demoInfo.bbtype;
+    var wfreq = demoInfo.wfreq;
+
+    d3.select("#selDataset")
+      .selectAll('option')
+      .data(dropdownIds)
+      .enter()
+      .append('option')
+      .attr('value', d => d)
+      .text(d => d);
+
+    d3.select("#sample-metadata").append('ul')
+    var ul = d3.select('ul')
+    ul.append('li').text(`ID: ${demoInfo.id}`)
+      .append('li').text(`Ethnicity: ${demoInfo.ethnicity}`)
+      .append('li').text(`Gender: ${demoInfo.gender}`)
+      .append('li').text(`Age: ${demoInfo.age}`)
+      .append('li').text(`Location: ${demoInfo.location}`)
+      .append('li').text(`BBType: ${demoInfo.bbtype}`)
+      .append('li').text(`WFreq: ${demoInfo.wfreq}`);
+
 
     slicedData = sampleValues[0].slice(0, 10).reverse();
     secondSlice = otuIds[0].slice(0, 10).reverse();
@@ -28,7 +53,7 @@ function init() {
       stringIds.push(`OTU ID: ${a}`);
     });
 
-    data = [{
+    var data = [{
       x: slicedData,
       y: stringIds,
       type: "bar",
@@ -39,7 +64,7 @@ function init() {
         width: 10
       }
     }];
-    layout = {
+    var layout = {
         title: "Top Ten Bacteria",
         hovermode: "closest",
         hoverlabel: { bgcolor: "#FFF" },
@@ -74,37 +99,72 @@ function init() {
     var layout2 = {
       // title: 'Marker Size',
       showlegend: false,
-      height: 600,
-      width: 600
+      height: 500,
+      width: 800
     };
-    var data2 = [{trace1}];
+    var data2 = [trace1];
     console.log(slicedData, secondSlice, thirdSlice);
+
+    var data3 = [{
+      domain: { x: [0, 1], y: [0, 1]},
+      value: wFreq,
+      title: { text: 'Wash Frequency' },
+      type: 'indicator',
+      mode: 'gauge+number'
+    }];
+    var newLayout = { width: 600, height: 500, margin: { t: 0, b: 0}};
+
+
     Plotly.newPlot("bar", data, layout);
-    Plotly.newPlot("bubble", data2, layout2)
+    Plotly.newPlot("bubble", data2, layout2);
+    Plotly.newPlot("gauge", data3, newLayout);
   })
-}
+};
 
 // Haven't finished this part below yet/ Ignore
+// function buildTable(id, ethnicity, gender, age, location, bbtype, wfreq) {
+//   // d3.select("#sample-metadata")
+//   //   .data(source)
+//   //   .enter()
+//   //   .append("li")
+//   //   .text(id, ethnicity, gender, age, location, bbtype, wfreq);
+//   d3.selectAll('#sample-metadata')
+// 	.data(source)
+// 	.enter()
+//   .append('ul')
+// 	.append('li').text(id)
+//   .append('li').text(ethnicity)
+//   .append('li').text(gender)
+//   .append('li').text(age)
+//   .append('li').text(location)
+//   .append('li').text(bbtype)
+//   .append('li').text(wfreq)
+//
+// };
 
-// function updatePlotly() {
-//   d3.json(source).then((data) => {
-//     var sampleValues = data.samples.map(object => object.sample_values);
-//     var otuIds = data.samples.map(object => object.otu_ids);
-//     var otuLabels = data.samples.map(object => object.otu_labels);
-//
-//     var dropdownMenu = d3.select("#selDataset");
-//     var options = dropdownMenu.selectAll("option")
-//       .data(source)
-//       .enter()
-//       .append("option")
-//       .text(d => d.samples.id);
-//
-//     var newSV = sampleValues.sort(function compareFunction(first, second) {
-//       return second - first;
-//
-//     });
-//
-//     console.log(otuIds);
+
+d3.selectAll("#selDataset").on("change", optionChanged);
+
+function optionChanged() {
+  d3.json(source).then((data) => {
+    var sampleValues = data.samples.map(object => object.sample_values);
+    var otuIds = data.samples.map(object => object.otu_ids);
+    var otuLabels = data.samples.map(object => object.otu_labels); }); }
+    // var metaIds = [];
+    // metaIds = data.metadata.map(d => d.id);
+    // console.log(metaIds);
+
+
+
+
+          // var options = dropdownMenu.selectAll("#selDataset")
+    //
+    // var newSV = sampleValues.sort(function compareFunction(first, second) {
+    //   return second - first;
+
+    // });
+
+    // console.log(otuIds);
 //     var trace1 = {
 //       type: "bar",
 //       x: newSV,
