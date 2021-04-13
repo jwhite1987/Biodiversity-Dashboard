@@ -10,10 +10,11 @@ console.log("Data Promise: ", dataPromise);
 function init() {
   d3.json(source).then((d) => {
     var sampleValues = d.samples.map(a => a.sample_values);
+    console.log(sampleValues)
     var otuIds = d.samples.map(a => a.otu_ids)
     var otuLabels = d.samples.map(a => a.otu_labels);
     var demoInfo = d.metadata[0];
-    var wFreq = demoInfo.wfreq;
+        var wFreq = demoInfo.wfreq;
     var id = demoInfo.id;
     var dropdownIds = d.metadata.map(a => a.id)
     console.log(demoInfo)
@@ -93,7 +94,7 @@ function init() {
       mode: 'markers',
       marker: {
         size: slicedData,
-        color: stringIds
+        color: 'rgb(44, 160, 101)'
       }
     }];
     var layout2 = {
@@ -133,14 +134,13 @@ function optionChanged() {
     var otuIds = data.samples.map(object => object.otu_ids);
     var otuLabels = data.samples.map(object => object.otu_labels);
     var dropdown = d3.select("#selDataset");
-    var dataset = dropdown.node().value;
+    var dataset = dropdown.property("value");
 
     var CHART = d3.selectAll("#plot").node();
 
     var x = [];
     var y = [];
-    function updating(x) {
-      if (dataset === data.samples.id[x]) {
+    if (dataset === data.samples.id[x]) {
         slicedData = sampleValues[x].slice(0, 10).reverse();
         secondSlice = otuIds[x].slice(0, 10).reverse();
         thirdSlice = otuLabels[x].slice(0, 10).reverse();
@@ -153,14 +153,14 @@ function optionChanged() {
         y = secondSlice;
 
       });
-    updating();
+    // updating();
 
     Plotly.restyle(CHART, "x", [x]);
     Plotly.restyle(CHART, "y", [y]);
   }}
 
 
-})};
+)};
 
 
 
