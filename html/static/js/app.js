@@ -145,16 +145,25 @@ function optionChanged(dataset) {
     newData = input;
     console.log(newData);
 
+    var ids = input.id;
+    var eth = input.ethnicity;
+    var gender = input.gender;
+    var age = input.age;
+    var location = input.location;
+    var bbType = input.bbtype;
+    var wFreq = input.wfreq;
+
+
     var ul = d3.selectAll("ul")
     ul
       .html("")
-      .append('li').text(`ID: ${input.id}`)
-      .append('li').text(`Ethnicity: ${input.ethnicity}`)
-      .append('li').text(`Gender: ${input.gender}`)
-      .append('li').text(`Age: ${input.age}`)
-      .append('li').text(`Location: ${input.location}`)
-      .append('li').text(`BBType: ${input.bbtype}`)
-      .append('li').text(`WFreq: ${input.wfreq}`);
+      .append('li').text(`ID: ${ids}`)
+      .append('li').text(`Ethnicity: ${eth}`)
+      .append('li').text(`Gender: ${gender}`)
+      .append('li').text(`Age: ${age}`)
+      .append('li').text(`Location: ${location}`)
+      .append('li').text(`BBType: ${bbType}`)
+      .append('li').text(`WFreq: ${wFreq}`);
 
 
 
@@ -192,8 +201,8 @@ function optionChanged(dataset) {
     Plotly.restyle(CHART, "y", [y]);
     Plotly.restyle(CHART, "text", [newText]);
 
-    Plotly.restyle(CHART2, "x", [x]);
-    Plotly.restyle(CHART2, "y", [y]);
+    Plotly.restyle(CHART2, "x", [y]);
+    Plotly.restyle(CHART2, "y", [x]);
     Plotly.restyle(CHART2, "size", [size]);
 
     Plotly.restyle(CHART3, "value", [gaugeValue]);
