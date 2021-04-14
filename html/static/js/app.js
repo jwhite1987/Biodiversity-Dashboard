@@ -127,41 +127,77 @@ function init() {
 };
 
 d3.selectAll("#selDataset").on("change", optionChanged);
+var dropdown = d3.select("#selDataset");
+var dataset = dropdown.property("value");
 
-function optionChanged() {
+function optionChanged(dataset) {
+
   d3.json(source).then((data) => {
-    var sampleValues = data.samples.map(object => object.sample_values);
-    var otuIds = data.samples.map(object => object.otu_ids);
-    var otuLabels = data.samples.map(object => object.otu_labels);
-    var dropdown = d3.select("#selDataset");
-    var dataset = dropdown.property("value");
+    var metadata = data.metadata;
+    var input = metadata.filter(a => a.id.toString() == dataset)[0];
+    console.log(input)
 
-    var CHART = d3.selectAll("#plot").node();
+    var samples = data.samples;
+    var input2 = samples.filter(a => a.id.toString() === dataset)[0];
+    console.log(input2);
 
-    var x = [];
-    var y = [];
-    if (dataset === data.samples.id[x]) {
-        slicedData = sampleValues[x].slice(0, 10).reverse();
-        secondSlice = otuIds[x].slice(0, 10).reverse();
-        thirdSlice = otuLabels[x].slice(0, 10).reverse();
+    var newData = [];
+    newData = input;
+    console.log(newData);
 
-        var stringIds = [];
+    var ul = d3.selectAll("ul")
+    ul
+      .html("")
+      .append('li').text(`ID: ${input.id}`)
+      .append('li').text(`Ethnicity: ${input.ethnicity}`)
+      .append('li').text(`Gender: ${input.gender}`)
+      .append('li').text(`Age: ${input.age}`)
+      .append('li').text(`Location: ${input.location}`)
+      .append('li').text(`BBType: ${input.bbtype}`)
+      .append('li').text(`WFreq: ${input.wfreq}`);
 
-        secondSlice.forEach(a => {
-          stringIds.push(`OTU ID: ${a}`);
-        x = slicedData;
-        y = secondSlice;
 
-      });
-    // updating();
+
+
+
+    var CHART = d3.selectAll("#bar").node();
+    var CHART2 = d3.selectAll("#bubble").node();
+    var CHART3 = d3.selectAll("#gauge").node();
+
+    console.log(input2.sample_values);
+
+    slicedData = input2.sample_values.slice(0, 10).reverse();
+    secondSlice = input2.otu_ids.slice(0, 10).reverse();
+    thirdSlice = input2.otu_labels.slice(0, 10).reverse();
+    console.log(slicedData, secondSlice, thirdSlice);
+
+    var stringIds = [];
+
+    secondSlice.forEach(a => {
+      stringIds.push(`OTU ID: ${a}`);
+    });
+
+
+    x = [];
+    y = [];
+    newText = [];
+    gaugeValue = input.wfreq;
+    size = [];
+    x = slicedData;
+    y = stringIds;
+    newText = thirdSlice;
+    size = slicedData;
 
     Plotly.restyle(CHART, "x", [x]);
     Plotly.restyle(CHART, "y", [y]);
-  }}
+    Plotly.restyle(CHART, "text", [newText]);
+
+    Plotly.restyle(CHART2, "x", [x]);
+    Plotly.restyle(CHART2, "y", [y]);
+    Plotly.restyle(CHART2, "size", [size]);
+
+    Plotly.restyle(CHART3, "value", [gaugeValue]);
 
 
-)};
-
-
-
+  })};
 init();
