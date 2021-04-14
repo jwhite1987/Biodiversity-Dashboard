@@ -1,4 +1,4 @@
-const source = "../../data/samples.json";
+const source = "../data/samples.json";
 
 d3.json(source).then(function(data) {
   console.log(data);
@@ -14,7 +14,7 @@ function init() {
     var otuIds = d.samples.map(a => a.otu_ids)
     var otuLabels = d.samples.map(a => a.otu_labels);
     var demoInfo = d.metadata[0];
-    var wFreq = demoInfo.wfreq;
+        var wFreq = demoInfo.wfreq;
     var id = demoInfo.id;
     var dropdownIds = d.metadata.map(a => a.id)
     console.log(demoInfo)
@@ -98,12 +98,12 @@ function init() {
       }
     }];
     var layout2 = {
-      title: 'Bubble Chart',
-      showlegend: true,
+      // title: 'Marker Size',
+      showlegend: false,
       height: 500,
       width: 800
     };
-
+    // var data2 = [trace1];
     console.log(slicedData, secondSlice, thirdSlice);
 
     var data3 = [{
@@ -111,12 +111,9 @@ function init() {
       value: wFreq,
       title: { text: 'Wash Frequency' },
       type: 'indicator',
-      mode: 'gauge+number',
-      gauge: {
-        bar: { color: 'darkblue' }
-      }
+      mode: 'gauge+number'
     }];
-    var newLayout = { width: 600, height: 500, margin: { t: 25, b: 25, l: 25, r: 25}};
+    var newLayout = { width: 600, height: 500, margin: { t: 0, b: 0}};
 
     var CHART = d3.selectAll("#bar").node();
     var CHART2 = d3.selectAll("#bubble").node();
@@ -138,9 +135,15 @@ function optionChanged(dataset) {
   d3.json(source).then((data) => {
     var metadata = data.metadata;
     var input = metadata.filter(a => a.id.toString() == dataset)[0];
+    console.log(input)
 
     var samples = data.samples;
     var input2 = samples.filter(a => a.id.toString() === dataset)[0];
+    console.log(input2);
+
+    var newData = [];
+    newData = input;
+    console.log(newData);
 
     var ids = input.id;
     var eth = input.ethnicity;
@@ -161,6 +164,10 @@ function optionChanged(dataset) {
       .append('li').text(`Location: ${location}`)
       .append('li').text(`BBType: ${bbType}`)
       .append('li').text(`WFreq: ${wFreq}`);
+
+
+
+
 
     var CHART = d3.selectAll("#bar").node();
     var CHART2 = d3.selectAll("#bubble").node();
@@ -200,7 +207,6 @@ function optionChanged(dataset) {
 
     Plotly.restyle(CHART3, "value", [gaugeValue]);
 
-    console.log("Yay, we're done!")
 
   })};
 init();
