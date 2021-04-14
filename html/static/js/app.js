@@ -1,4 +1,4 @@
-const source = "../../data/samples.json";
+const source = "samples.json";
 
 d3.json(source).then(function(data) {
   console.log(data);
