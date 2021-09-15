@@ -1,52 +1,30 @@
-<h1 align="center">
+# `Biodiversity Dashboard`
 
-Welcome to Biodiversity and Plotly 👋
+## Project Description
 
-</h1>
-<p>
-<img alt="Version" src="https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000" />
-
-<a href="None/graphs/commit-activity" target="_blank"><img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /></a>
-
-
-</p>
-
-> We will build an interactive dashboard to explore the Belly Button Biodiversity dataset, which catalogs the microbes that colonize human navels. The dataset reveals that a small handful of microbial species (also called operational taxonomic units, or OTUs, in the study) were present in more than 70% of people, while the rest were relatively rare.
-### 🏠 [Homepage](https://jimmywhite1987.github.io/plotly/)
-### ✨ [Demo](https://jimmywhite1987.github.io/plotly/)
-## Install
-```sh
-None
-
-```
-
-## Usage
-```sh
-Visit Homepage/Demo Page Above
-
-```
-
-## Run tests
-```sh
-None
-
-```
-
-## Author
-👤 **Jimmy White**
-* Website: https://www.jwhiteanalytics.com
-
-* GitHub: [@jimmywhite1987](https://github.com/{github_username})
+-  The goal of this project is to build an interactive dashboard based upon the [Belly Button Biodiversity dataset](http://robdunnlab.com/projects/belly-button-biodiversity/).
+- The dataset catalogs the microbes that colonize human navels and reveals that a small handful of microbial species, also called operational taxonomic units (OTU's) were present in more than 70% of people, while the rest were relatively rare.
+- Using Plotly, then build a horizontal bar chart with a dropdown menu to display the top 10 OTU's and create a bubble chart that displays each sample.
+- Finally, display the sample metadata, display each key-value pair from the metadata, and update all of the plots any time that a new sample is selected.
 
 
+## Languages & Technology Used
 
+- D3
+- JSON
+- JavaScript
+- HTML
+- CSS
 
+## Screenshots
+![image](/Images/screenshot1.png)
 
-## Show your support
-Give a ⭐️ if this project helped you!
-## Credits
-**[None](None)**
+![image](/Images/screenshot2.png)
 
+![image](/Images/screenshot3.png)
 
----
-_This README was created with the [markdown-readme-generator](https://github.com/pedroermarinho/markdown-readme-generator)_
+![image](/Images/screenshot4.png)
+
+## Links
+- [JWhiteAnalytics.com](https://jwhiteanalytics.com)
+- [LinkedIn](https://www.linkedin.com/in/jimmywhite1987)
